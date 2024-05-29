@@ -1,31 +1,33 @@
-# Streamlitライブラリをインポート
 import streamlit as st
+st.title("集合を求める")
+U = st.text_input("全体集合を入力してください")
+zentaisyuugouu = set(U.split())
 
-# ページ設定（タブに表示されるタイトル、表示幅）
-st.set_page_config(page_title="タイトル", layout="wide")
+A = st.text_input("集合Aを入力してください")
+B = st.text_input("集合Bを入力してください")
 
-# タイトルを設定
-st.title('Streamlitのサンプルアプリ')
+syuugoua = set(A.split())
+syuugoub = set(B.split())
 
-# テキスト入力ボックスを作成し、ユーザーからの入力を受け取る
-user_input = st.text_input('あなたの名前を入力してください')
+katu = syuugoua & syuugoub   #AかつＢ
+mataha = syuugoua | syuugoub #ＡまたはＢ
 
-# ボタンを作成し、クリックされたらメッセージを表示
-if st.button('挨拶する'):
-    if user_input:  # 名前が入力されているかチェック
-        st.success(f'🌟 こんにちは、{user_input}さん! 🌟')  # メッセージをハイライト
-    else:
-        st.error('名前を入力してください。')  # エラーメッセージを表示
+A_bar = zentaisyuugouu - syuugoua
+B_bar = zentaisyuugouu - syuugoub
 
-# スライダーを作成し、値を選択
-number = st.slider('好きな数字（10進数）を選んでください', 0, 100)
+a_barkatu = A_bar & syuugoub    #ＡバーかつＢ
+a_barmataha = A_bar | syuugoub  #ＡバーまたはＢ
+b_barkatu = B_bar & syuugoua    #ＡかつＢバー
+b_barmataha = B_bar | syuugoua  #ＡまたはＢバー
+a_barkatub_bar = A_bar & B_bar  #ＡバーかつＢバー
+a_barmataha_bar = A_bar | B_bar #ＡバーまたはＢバー
 
-# 補足メッセージ
-st.caption("十字キー（左右）でも調整できます。")
 
-# 選択した数字を表示
-st.write(f'あなたが選んだ数字は「{number}」です。')
-
-# 選択した数値を2進数に変換
-binary_representation = bin(number)[2:]  # 'bin'関数で2進数に変換し、先頭の'0b'を取り除く
-st.info(f'🔢 10進数の「{number}」を2進数で表現すると「{binary_representation}」になります。 🔢')  # 2進数の表示をハイライト
+st.write("AかつB:", katu)
+st.write("AまたはB:", mataha)
+st.write("ＡバーかつＢ", a_barkatu)
+st.write("ＡバーまたはＢ", a_barmataha)
+st.write("ＡかつＢバー", b_barkatu)
+st.write("ＡまたはＢバー", b_barmataha)
+st.write("ＡバーかつＢバー", a_barkatub_bar)
+st.write("ＡバーまたはＢバー", a_barmataha_bar)
